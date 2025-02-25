@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yang Jia Hao - Resume</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Add inline systle to fix the flashing use -->
+    <style>
+        :root { transition: none !important; }
+        body { 
+            transition: none !important;
+            background: var(--light-bg); /* 默认背景 */
+        }
+        body[data-theme="dark"] { 
+            background: var(--dark-bg);
+            transition: none !important;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <button id="theme-toggle" style="position: fixed; top: 20px; right: 20px; padding: 8px; background: transparent; border: none; cursor: pointer; transition: opacity 0.3s ease; font-size: 20px;">
+        <span id="theme-icon" style="display: block; width: 24px; height: 24px; line-height: 24px;">☀️</span>
+    </button>   
+    <!-- Header Section -->
+    <header class="header">
+        <img src="Image/Image.jpg" alt="Yang Jia Hao" class="avatar">
+        <div class="header-info">
+            <h1>Yang Jia Hao</h1>
+            <p>Application Software Developer</p>
+            <p>📧 <a href="mailto:y.jiahao619@gmail.com" class="email-link">y.jiahao619@gmail.com</a></p>
+            <p class="phone-info">📱 <span id="phone-info"></span></p>
+            <a href="Profolio/YANG JIA HAO.pdf" class="download-btn" download>Download Resume</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Sidebar: Skills & Education -->
+        <aside class="sidebar">
+            <section class="skills">
+                <h2 id="skills">Skills</h2>
+                <ul>
+                    <li>HTML & CSS & Bootstrap</li>
+                    <li>PHP & Laravel & C++</li>
+                    <li>Angular.js & React.js & Node.js & Vue.js</li>
+                    <li>MySQL & MongoDB</li>
+                    <li>Power BI</li>
+                </ul>
+            </section>
+
+            <section class="education">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <p><strong>New Era University College, Malaysia</strong> <br>
+                    <span class="duration">2017 - May 2019</span>Diploma in Software Engineering & Mobile Development</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Beijing Vocational College of Labour and Social Security, China</strong>
+                    <span class="duration">May 2019 - Jun 2019</span>Internet of Things (IoT) Training</p>
+                </div>
+
+                <!-- <div class="project-trigger" data-modal="project1">
+                    <span>View Project scrrenshot</span>
+                    <i class="ph ph-images"></i>
+                </div> -->
+            </section>
+        </aside>
+
+        <!-- Right Main Content: Experience & Projects -->
+        <main class="main-content">
+            <section class="experience">
+                <h2 id="experience">Experience</h2>
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>SEAGM Gamer Mall</h3>
+                            <div class="job-meta">
+                                <span class="role">Application Software Developer & Customer Support</span>
+                                <span class="duration">Feb 2020 - Jun 2022</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="job-highlights">
+                        <li>Using HTML and CSS animations and JavaScript effects to enhance interactivity</li>
+                        <li>Participated in enhancing the user experience of an existing project, improving the overall performance of the website.</li>
+                        <li>Responsible for conducting functional tests, inspecting, and fixing errors and issues in the front-end code.</li>
+                        <li>Conducted cross-browser testing to ensure consistency across different browsers and devices</li>
+                        <li>Collaborated with the team to adjust and enhance the user interface based on feedback.</li>
+                        <li>Utilizing Excel tools to import large volumes of data into the database and ensure the accuracy of the data.</li>
+                        <li>Providing detailed information about game activation code products and assisting customers in selecting products that suit their needs.</li>
+                        <li>Handling a large volume of customer service requests, and providing information and solutions regarding game activation codes.</li>
+                        <li>Interacting with customers through phone calls and emails, answering inquiries, solving problems, and ensuring customer satisfaction.</li>
+                        <li>Assisting in processing orders, refunds, and handling complaints to maintain a high level of customer satisfaction.</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>EAIM EAST INSTITUTE OF MANAGEMENT</h3>
+                            <div class="job-meta">
+                                <span class="role">Application Software Developer</span>
+                                <span class="duration">Oct 2022 - Jan 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="job-highlights">
+                        <li>Effectively implemented software changes and alterations according to specific design specifications.</li>
+                        <li>Demonstrated successful independent work, while also contributing as an effective and enthusiastic collaborator.</li>
+                        <li>Successfully identified, diagnosed, and resolved website issues, including broken links, typographical errors, and formatting issues.</li>
+                        <li>Contributed to achieving a consistent look and visual theme across the website by advocating for uniform fonts, formatting, images, and layout.</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>PCOM-SSB</h3>
+                            <div class="job-meta">
+                                <span class="role">IT SUPPORT</span>
+                                <span class="duration">Aug 2023 - Sep 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="job-highlights">
+                        <li>Provided phone and email support to clients, resolving various technical issues.</li>
+                        <li>Assisted clients in configuring and maintaining various software applications.</li>
+                        <li>Offered remote and on-site technical support, resolving software issues for employees.</li>
+                        <li>Learned software development fundamentals within a development team, participating in coding and testing small projects.</li>
+                        <li>Assisted developers in problem-solving and bug-fixing.</li>
+                        <li>Responsible for maintaining the company's database system, including regularly backing up critical data to ensure data security.</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span>Database</span>
+                        <span>Technical Support</span>
+                    </div>
+                </div>
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>PINNALCE CREDIT SERVICES</h3>
+                            <div class="job-meta">
+                                <span class="role">IT SUPPORT & Website Developer</span>
+                                <span class="duration">Jan 2024 - Present</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="job-highlights">
+                        <li>Developed a live Management Dashboard that improved departmental decision-making efficiency by providing real-time collection performance insights. PHP (backend) and React.js (frontend).</li>
+                        <li>Implemented security enhancements (CSP, HSTS) reducing security vulnerabilities.</li>
+                        <li>Managed database backups and disaster recovery processes, preventing potential data loss incidents.</li>
+                        <li>Ensured compliance with data protection regulations (e.g., GDPR, local regulations) in system configuration and data handling processes.</li>
+                        <li>Managed and maintained Microsoft Active Directory (AD), handling user accounts, group policies, and access control to maintain secure operations and minimize downtime.</li>
+                    </ul>
+                     <div class="tech-stack">
+                        <span>PHP</span>
+                        <span>React.js</span>
+                        <span>Security</span>
+                        <span>Active Directory</span>
+                        <span>GDPR</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Simplify the modal structure -->
+    <!-- <div class="project-modal" id="project1">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-gallery">
+                <img src="project1-1.webp" alt="System interface">
+            </div>
+        </div>
+    </div> -->
+
+    <script>
+        function getCountryByPhone(phoneNumber) {
+            const countryData = {
+                "+65": { country: "Singapore", flag: "<img src='Image/sg.png' width='24' height='16'>" },
+                "+60": { country: "Malaysia", flag: "<img src='Image/my.png' width='24' height='16'>" }
+            };
+            phoneNumber = phoneNumber.trim();
+            for (const code in countryData) {
+                if (phoneNumber.startsWith(code)) {
+                    return `<span>${countryData[code].flag} ${countryData[code].country} (${phoneNumber})</span>`;
+                }
+            }
+            return `<span>${phoneNumber}</span>`;
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("phone-info").innerHTML = getCountryByPhone("+65 80760399") + " / " + getCountryByPhone("+60 1126478972");
+        });
+        document.getElementById("theme-toggle").addEventListener("click", function() {
+        const body = document.body;
+        const newTheme = body.getAttribute("data-theme") === "light" ? "dark" : "light";
+        body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        document.getElementById("theme-icon").textContent = newTheme === 'light' ? '☀️' : '🌙';
+    });
+    
+    // Modify theme loading logic
+    (function initTheme() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.style.visibility = 'hidden'; // 隐藏初始渲染
+        document.body.setAttribute("data-theme", savedTheme);
+        document.getElementById("theme-icon").textContent = savedTheme === 'light' ? '☀️' : '🌙';
+        document.addEventListener("DOMContentLoaded", () => {
+            document.documentElement.style.visibility = 'visible';
+        });
+    })();
+
+    // Modal interaction
+    document.querySelectorAll('.project-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const modalId = trigger.dataset.modal;
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+        });
+    });
+
+    document.querySelectorAll('.modal-close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            closeBtn.closest('.project-modal').style.display = 'none';
+        });
+    });
+
+    // Click background to close
+    window.onclick = function(event) {
+        if (event.target.classList.contains('project-modal')) {
+            event.target.style.display = 'none';
+        }
+    };
+</script>
+</body>
+</html>
