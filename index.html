@@ -447,7 +447,7 @@
             // 清除URL中的锚点
             if (window.location.hash) {
                 // 使用 history.replaceState 清除锚点，不影响历史记录
-                history.replaceState('', document.title, window.location.pathname);
+                history.replaceState('', document.title, window.location.pathname.replace('index.html', ''));
             }
             // 滚动到顶部
             window.scrollTo(0, 0);
@@ -592,7 +592,7 @@
             const orbits = [
                 { radius: 280, duration: 25, size: 36, itemSrc: "https://cdn-icons-png.flaticon.com/512/732/732190.png", initialAngle: 135 },
                 { radius: 330, duration: 32, size: 32, itemSrc: "https://cdn-icons-png.flaticon.com/512/4107/4107400.png", initialAngle: 225 },
-                { radius: 380, duration: 8, size: 120, itemSrc: "images/myself-img.jpg", isAvatar: true, initialAngle: 315 },
+                { radius: 380, duration: 8, size: 120, itemSrc: "myself-img.jpg", isAvatar: true, initialAngle: 315 },
                 { radius: 150, duration: 18, size: 28, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png", initialAngle: 0 },
                 { radius: 220, duration: 22, size: 38, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968322.png", initialAngle: 180 },
                 { radius: 250, duration: 20, size: 34, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968332.png", initialAngle: 90 }

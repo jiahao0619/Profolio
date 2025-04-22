@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>重定向中...</title>
+  <script>
+    // 检查URL是否包含index.html
+    if (window.location.href.indexOf('index.html') > -1) {
+      // 重定向到不带index.html的URL
+      window.location.href = window.location.href.replace('index.html', '');
+    } else {
+      // 否则重定向到主页
+      window.location.href = '/';
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting, please wait...</p>
+</body>
+</html> 
