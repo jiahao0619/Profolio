@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>James</title>
+    <!-- 重定向脚本 -->
+    <script src="redirect.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="myself-img.jpg">
     <!-- Tailwind CSS -->
@@ -444,11 +446,20 @@
     <script type="text/babel">
         // 页面加载时滚动到顶部并隐藏加载动画
         window.onload = function() {
-            // 清除URL中的锚点
-            if (window.location.hash) {
-                // 使用 history.replaceState 清除锚点，不影响历史记录
-                history.replaceState('', document.title, window.location.pathname.replace('index.html', ''));
+            // 清除URL中的锚点和index.html (如果存在)
+            if (window.location.hash || window.location.pathname.endsWith('/index.html')) {
+                var pathname = window.location.pathname;
+                if (pathname.endsWith('/index.html')) {
+                    pathname = pathname.slice(0, -10); // 移除"/index.html"
+                }
+                
+                var newUrl = window.location.protocol + '//' + window.location.host + 
+                             pathname + window.location.search;
+                             
+                // 如果想保留hash，就不要在newUrl后面加window.location.hash
+                history.replaceState('', document.title, newUrl);
             }
+            
             // 滚动到顶部
             window.scrollTo(0, 0);
             
