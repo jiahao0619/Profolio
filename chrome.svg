@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="63" height="63">
+  <linearGradient id="a" x1="13.602" x2="85.148" y1="13.693" y2="85.238" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#1E8E3E"/>
+    <stop offset="1" stop-color="#34A853"/>
+  </linearGradient>
+  <linearGradient id="b" x1="28.427" x2="80.112" y1="12.743" y2="44.557" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#A52714" stop-opacity=".6"/>
+    <stop offset=".66" stop-color="#A52714" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="c" x1="75.325" x2="19.03" y1="76.714" y2="39.159" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#3F51B5" stop-opacity=".4"/>
+    <stop offset="1" stop-color="#3F51B5" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="d" x1="26.437" x2="67.201" y1="81.618" y2="42.077" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#EA4335"/>
+    <stop offset="1" stop-color="#FBBC04"/>
+  </linearGradient>
+  <circle cx="50" cy="50" r="38.5" fill="#fff"/>
+  <circle cx="50" cy="50" r="34.5" fill="url(#a)"/>
+  <path fill="url(#b)" d="M82.2 50c0 17.8-14.4 32.2-32.2 32.2S17.8 67.8 17.8 50c0-9.5 4.1-18 10.6-24l-7.6 19h32.2L82.2 50z"/>
+  <path fill="url(#c)" d="M82.2 50c0 9-3.7 17.2-9.6 23.1L50 50h22.6l-8.4-22H36.4l-9 22.1 23.5 19L82.2 50z"/>
+  <path fill="url(#d)" d="M28.4 74.1C36 81.3 46.5 84.8 56.2 82c9.7-2.8 17.5-11 20-20.9H53L28.4 74.2zm13.2-49H64l-5.9-15.8c-3-.6-6-.6-9 0L41.6 25z"/>
+  <circle cx="50" cy="50" r="13.7" fill="#4285F4"/>
+  <circle cx="50" cy="50" r="11.8" fill="#fff"/>
+</svg> 

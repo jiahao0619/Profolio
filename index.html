@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6e57e0',
+                        secondary: '#ff6b6b',
+                    },
+                    fontFamily: {
+                        fantasy: ['Segoe UI', 'Arial', 'sans-serif']
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- React, ReactDOM 和 Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .accentLightBg {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .orbit-item {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(110, 87, 224, 0.15);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(50px, 50px);
+            }
+            50% {
+                transform: translate(0, 100px);
+            }
+            75% {
+                transform: translate(-50px, 50px);
+            }
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, #6e57e0, #ff6b6b);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #6e57e0, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(90deg, #6e57e0, #ff6b6b);
+            border-radius: 4px;
+        }
+
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.2s ease-out;
+        }
+
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        
+        /* 轨道样式改进 - 更清晰的轨道线路 */
+        .orbit-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1.5px dashed rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+            transition: all 0.5s ease;
+            box-shadow: 0 0 15px rgba(110, 87, 224, 0.15);
+        }
+        
+        .orbit-item {
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: center center;
+            animation: orbit linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        @keyframes orbit {
+            from {
+                transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+            }
+        }
+        
+        /* 顶部导航样式 */
+        .top-nav {
+            background-color: #000000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .top-nav a {
+            color: #f5f5f5;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .top-nav a:hover {
+            color: #6e57e0;
+        }
+        
+        .site-title {
+            color: #6e57e0;
+            font-weight: bold;
+        }
+        
+        /* 个人卡片和轨道整合样式 */
+        .profile-card-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .profile-card {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 30;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .orbit-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+        
+        /* 苹果风格的阴影和过渡效果 */
+        .apple-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+        
+        .apple-transition {
+            transition: all 0.5s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+        
+        /* 苹果风格的文本渐变 */
+        .text-gradient {
+            background: linear-gradient(135deg, #6e57e0, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hover\:text-gradient:hover {
+            background: linear-gradient(135deg, #6e57e0, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* 苹果风格的轨道动画 */
+        .orbit-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px);
+            transition: all 0.5s ease;
+        }
+        
+        .orbit-item {
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: center center;
+            animation: orbit linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        .orbit-item img {
+            transition: all 0.3s ease;
+        }
+        
+        .orbit-item:hover img {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+        
+        /* 动画关键帧定义 */
+        @keyframes orbit {
+            from {
+                transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+            }
+        }
+        
+        /* 调整整体动画体验 */
+        .animate-smooth {
+            animation-timing-function: cubic-bezier(0.28, 0.11, 0.32, 1);
+        }
+        
+        /* 苹果风格的精致动效 */
+        .orbit-pulse {
+            animation: orbit-pulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes orbit-pulse {
+            0% {
+                opacity: 0.85;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+        
+        /* 苹果视觉效果优化 */
+        .apple-blur {
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+        
+        /* 苹果微光效果 */
+        .apple-glow {
+            box-shadow: 0 0 20px rgba(110, 87, 224, 0.15), 
+                        0 0 40px rgba(110, 87, 224, 0.05);
+            animation: apple-glow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes apple-glow {
+            0% {
+                box-shadow: 0 0 20px rgba(110, 87, 224, 0.15),
+                            0 0 40px rgba(110, 87, 224, 0.05);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(255, 107, 107, 0.20),
+                            0 0 50px rgba(255, 107, 107, 0.10);
+            }
+        }
+        
+        /* 苹果手势动画 */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+        }
+        
+        /* 页面加载动画 */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-icon {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(110, 87, 224, 0.2);
+            border-radius: 50%;
+            border-top-color: #6e57e0;
+            border-left-color: #ff6b6b;
+            animation: loader-spin 1s linear infinite;
+        }
+        
+        @keyframes loader-spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* 缓慢浮动动画 */
+        @keyframes floatSlower {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(30px, -30px);
+            }
+        }
+        
+        /* 视差浮动效果 */
+        @keyframes parallaxFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(20px, -20px) scale(1.05);
+            }
+        }
+        
+        /* 计数器动画 */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .count-up {
+            opacity: 0;
+            animation: countUp 1s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面加载动画 -->
+    <div class="page-loader">
+        <div class="loader-icon"></div>
+    </div>
+    
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="site-title text-xl">James</a>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="hover:text-primary">Home</a></li>
+                <li><a href="#about" class="hover:text-primary">About me</a></li>
+                <li><a href="#skills" class="hover:text-primary">Skills</a></li>
+                <li><a href="#experience" class="hover:text-primary">Experience</a></li>
+                <!-- <li><a href="#projects" class="hover:text-primary">Projects</a></li> -->
+                <li><a href="#contact" class="hover:text-primary">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        // 页面加载时滚动到顶部并隐藏加载动画
+        window.onload = function() {
+            // 清除URL中的锚点
+            if (window.location.hash) {
+                // 使用 history.replaceState 清除锚点，不影响历史记录
+                history.replaceState('', document.title, window.location.pathname);
+            }
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+            
+            // 隐藏加载动画
+            setTimeout(() => {
+                document.querySelector('.page-loader').classList.add('loader-hidden');
+            }, 800);
+        };
+        
+        // 从React导入需要的组件
+        const { useState, useEffect, useRef } = React;
+
+        // 3D卡片组件
+        const Card3D = () => {
+            const cardRef = useRef(null);
+            const [rotation, setRotation] = useState({ x: 0, y: 0 });
+            const [nameIndex, setNameIndex] = useState(0);
+            const names = ["James", "Yang"];
+
+            useEffect(() => {
+                const handleMouseMove = (e) => {
+                    if (!cardRef.current) return;
+                    
+                    const rect = cardRef.current.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    const rotationX = y / (rect.height / 2) * 10;
+                    const rotationY = -x / (rect.width / 2) * 10;
+                    
+                    setRotation({ 
+                        x: rotationX, 
+                        y: rotationY 
+                    });
+                };
+                
+                const handleMouseLeave = () => {
+                    setRotation({ x: 0, y: 0 });
+                };
+                
+                const element = cardRef.current;
+                if (element) {
+                    element.addEventListener('mousemove', handleMouseMove);
+                    element.addEventListener('mouseleave', handleMouseLeave);
+                }
+                
+                // 名字切换效果
+                const interval = setInterval(() => {
+                    setNameIndex((prevIndex) => (prevIndex + 1) % names.length);
+                }, 5000);
+                
+                return () => {
+                    if (element) {
+                        element.removeEventListener('mousemove', handleMouseMove);
+                        element.removeEventListener('mouseleave', handleMouseLeave);
+                    }
+                    clearInterval(interval);
+                };
+            }, []);
+
+            return (
+                <div 
+                    ref={cardRef}
+                    className="flex items-center justify-center relative"
+                    style={{ perspective: '1000px' }}
+                >
+                    <div
+                        className="card-3d flex items-center justify-center relative apple-transition hover-lift"
+                        style={{ 
+                            transformStyle: 'preserve-3d',
+                            transform: `rotateY(${rotation.y}deg) rotateX(${rotation.x}deg)`
+                        }}
+                    >
+                        <div className="preserve-3d">
+                            <div className="p-8 relative accentLightBg rounded-3xl shadow-xl apple-shadow">
+                                <div 
+                                    className="w-fit transition duration-200"
+                                    style={{ transform: `translateZ(20px)` }}
+                                >
+                                    <p className="text-xl font-bold text-gray-300">My name is:</p>
+                                </div>
+                                <div 
+                                    className="w-fit transition duration-200"
+                                    style={{ transform: `translateZ(20px)` }}
+                                >
+                                    <h1 className="py-4 border-b-2 border-slate-700 relative h-24">
+                                        <div 
+                                            className={`z-10 inline-block relative px-2 text-gradient font-bold text-5xl md:text-6xl font-fantasy whitespace-nowrap text-center transition-all duration-500 ${nameIndex === 0 ? 'opacity-100' : 'opacity-0'}`}
+                                            style={{ 
+                                                transform: nameIndex === 0 ? `translateZ(40px)` : 'translateY(-20px)',
+                                                width: '8em'
+                                            }}
+                                        >
+                                            {'James'.split('').map((char, i) => (
+                                                <span key={i} className="inline-block">{char}</span>
+                                            ))}
+                                        </div>
+                                        <div 
+                                            className={`z-10 inline-block absolute left-2 top-4 px-2 text-gradient font-bold text-5xl md:text-6xl font-fantasy whitespace-nowrap text-center transition-all duration-500 ${nameIndex === 1 ? 'opacity-100' : 'opacity-0'}`}
+                                            style={{ 
+                                                transform: nameIndex === 1 ? `translateZ(40px)` : 'translateY(-20px)',
+                                                width: '6em'
+                                            }}
+                                        >
+                                            {'Developer'.split('').map((char, i) => (
+                                                <span key={i} className="inline-block">{char}</span>
+                                            ))}
+                                        </div>
+                                    </h1>
+                                </div>
+                                <div className="preserve-3d">
+                                    <div className="pt-4 text-md leading-tight text-end">
+                                        <div 
+                                            className="w-fit transition duration-200"
+                                            style={{ transform: `translateZ(20px)` }}
+                                        >
+                                            <p className="text-lg mb-4 text-start font-bold text-gray-300">I am a:</p>
+                                        </div>
+                                        {[
+                                           , 
+                                            'UI/UX Developer ', 
+                                            'Full Stack Developer', 
+                                            'Frontend Specialist'
+                                          
+                                            
+                                        ].map((item, i) => (
+                                            <div key={i} className="opacity-100 transition-all duration-300 hover:translate-x-2 text-right mb-3 text-base" style={{ transform: `translateZ(${15 + i * 5}px)` }}>
+                                                <a href="#" className="text-gray-400 hover:text-gradient apple-transition">{item}</a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="bg-gradient w-16 h-16 absolute -left-4 -bottom-4 rounded-full" style={{ transform: `translateZ(-20px)` }}></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 轨道系统组件 (重构版)
+        const OrbitSystem = () => {
+            // 轨道数据 - 头像更快，图标较慢
+            const orbits = [
+                { radius: 280, duration: 28, size: 40, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968705.png", initialAngle: 45 },
+                { radius: 280, duration: 25, size: 36, itemSrc: "https://cdn-icons-png.flaticon.com/512/732/732190.png", initialAngle: 135 },
+                { radius: 330, duration: 32, size: 32, itemSrc: "https://cdn-icons-png.flaticon.com/512/4107/4107400.png", initialAngle: 225 },
+                { radius: 380, duration: 8, size: 120, itemSrc: "myself-img.jpg", isAvatar: true, initialAngle: 315 },
+                { radius: 150, duration: 18, size: 28, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png", initialAngle: 0 },
+                { radius: 220, duration: 22, size: 38, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968322.png", initialAngle: 180 },
+                { radius: 250, duration: 20, size: 34, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968332.png", initialAngle: 90 }
+            ];
+            
+            return (
+                <>
+                    {/* 苹果风格光晕效果 */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-gradient opacity-20 blur-3xl apple-glow"></div>
+                
+                    {/* 绘制轨道圆圈 */}
+                    {orbits.map((orbit, i) => (
+                        <div 
+                            key={`orbit-${i}`} 
+                            className="orbit-circle" 
+                            style={{
+                                width: `${orbit.radius * 2}px`,
+                                height: `${orbit.radius * 2}px`,
+                                opacity: 0.5 - i * 0.02,
+                                borderWidth: i === 3 ? '3px' : '1.5px',
+                                borderColor: i === 3 ? 'rgba(110, 87, 224, 0.5)' : 'rgba(255, 255, 255, 0.4)'
+                            }}
+                        ></div>
+                    ))}
+                    
+                    {/* 绘制轨道上的物体 */}
+                    {orbits.map((orbit, i) => {
+                        const orbitTop = `calc(50% - ${orbit.size/2}px)`;
+                        const orbitLeft = `calc(50% - ${orbit.size/2}px)`;
+                        
+                        return (
+                            <div 
+                                key={`item-${i}`}
+                                className={`orbit-item animate-smooth ${orbit.isAvatar ? 'z-20' : (i === 2 ? 'z-5' : 'z-10')}`}
+                                style={{
+                                    top: orbitTop,
+                                    left: orbitLeft,
+                                    width: `${orbit.size}px`,
+                                    height: `${orbit.size}px`,
+                                    animation: `orbit ${orbit.duration}s linear infinite`,
+                                    animationDelay: `-${(orbit.initialAngle / 360) * orbit.duration}s`,
+                                    "--orbit-radius": `${orbit.radius}px`,
+                                    filter: orbit.isAvatar ? "drop-shadow(0 15px 20px rgba(0, 0, 0, 0.4))" : "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15))"
+                                }}
+                            >
+                                <img 
+                                    src={orbit.itemSrc}
+                                    alt="轨道项"
+                                    className={`w-full h-full ${orbit.isAvatar ? 'rounded-full shadow-lg orbit-pulse' : ''}`}
+                                />
+                                {orbit.isAvatar && (
+                                    <div className="absolute -inset-4 rounded-full bg-gradient opacity-30 blur-md -z-10"></div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </>
+            );
+        };
+
+        // 英雄区组件
+        const Hero = () => {
+            return (
+                <section id="home" className="relative min-h-screen py-20 overflow-hidden">
+                    <div className="profile-card-container">
+                        {/* 个人卡片 */}
+                        <div className="profile-card">
+                            <Card3D />
+                        </div>
+                        
+                        {/* 轨道系统 */}
+                        <div className="orbit-container">
+                            <OrbitSystem />
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 关于我组件
+        const About = () => {
+            const [animated, setAnimated] = useState(false);
+            
+            useEffect(() => {
+                const handleScroll = () => {
+                    const section = document.getElementById('about');
+                    if (section) {
+                        const sectionTop = section.getBoundingClientRect().top;
+                        const windowHeight = window.innerHeight;
+                        
+                        if (sectionTop < windowHeight * 0.75 && !animated) {
+                            setAnimated(true);
+                        }
+                    }
+                };
+                
+                window.addEventListener('scroll', handleScroll);
+                // 初始检查
+                handleScroll();
+                
+                return () => {
+                    window.removeEventListener('scroll', handleScroll);
+                };
+            }, [animated]);
+            
+            return (
+                <section id="about" className="py-20 bg-black bg-opacity-50 relative overflow-hidden">
+                    {/* 主装饰圆形 */}
+                    <div 
+                        className="absolute top-12 right-12 w-80 h-80 rounded-full opacity-10"
+                        style={{
+                            background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 70%)",
+                            boxShadow: "0 0 60px rgba(255,255,255,0.1)",
+                            animation: "float 15s infinite ease-in-out"
+                        }}
+                    ></div>
+                    
+                    {/* 添加额外的装饰圆形 */}
+                    <div 
+                        className="absolute bottom-24 left-12 w-40 h-40 rounded-full opacity-5"
+                        style={{
+                            background: "radial-gradient(circle, rgba(110,87,224,0.4) 0%, rgba(252,107,255,0.1) 70%)",
+                            boxShadow: "0 0 40px rgba(110,87,224,0.1)",
+                            animation: "floatSlower 20s infinite ease-in-out"
+                        }}
+                    ></div>
+                    
+                    <div 
+                        className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full opacity-10"
+                        style={{
+                            background: "radial-gradient(circle, rgba(0,216,222,0.3) 0%, rgba(252,0,255,0.05) 70%)",
+                            boxShadow: "0 0 30px rgba(0,216,222,0.1)",
+                            animation: "parallaxFloat 18s infinite ease-in-out",
+                            transform: "translateY(-50%)"
+                        }}
+                    ></div>
+                    
+                    <div className="container mx-auto px-4">
+                        <div className="flex flex-col md:flex-row gap-12">
+                            <div className="md:w-1/2">
+                                <h2 className="text-3xl font-bold mb-6 text-gradient">About me</h2>
+                                <p className="text-gray-400 mb-6">
+                                    Diploma in Software Engineering and Mobile Development. I had the experience of being an overseas student exchange in China. Expert with PHP, 
+                                    jQuery, HTML, CSS, and JavaScript as well. Loyal team member, readily listening to others, 
+                                    good communication skills, outstanding time-management and organizational abilities.
+                                </p>
+                                <p className="text-gray-400 mb-6">
+                                    Fluent in Mandarin, Cantonese, English, and Malay. Seeking a position in IT support or software development 
+                                    to apply my extensive technical knowledge and problem-solving skills, delivering value to the organization.
+                                </p>
+                                <p className="text-gray-400 mb-6">
+                                    My expertise spans across frontend and backend technologies, with a particular focus on creating responsive, 
+                                    user-friendly interfaces and robust server-side applications. I enjoy solving complex problems and continuously
+                                    learning new technologies to stay at the forefront of web development.
+                                </p>
+                            </div>
+                            <div className="md:w-1/2">
+                                <div className="grid grid-cols-2 gap-6">
+                                    {[
+                                        { number: '2+', text: 'Years of development experience' },
+                                        // { number: '3', text: 'Completed projects' },
+                                        { number: '1', text: 'IT Certificates' },
+                                        
+                                    ].map((item, index) => (
+                                        <div key={index} className="p-6 rounded-xl section-border glass-effect apple-shadow apple-transition">
+                                            <div className={`text-4xl mb-4 text-gradient ${animated ? 'count-up' : ''}`} style={{ animationDelay: `${index * 0.2}s` }}>{item.number}</div>
+                                            <div className="text-lg font-medium text-gray-300">{item.text}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 技能组件
+        const Skills = () => {
+            // 技能数据
+            const skillsData = [
+                { name: "HTML5, CSS3", level: 90, category: "Frontend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/732/732212.png" },
+                { name: "JavaScript", level: 70, category: "Frontend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png" },
+                { name: "Angular.js", level: 65, category: "Frontend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968358.png" },
+                { name: "React.js", level: 65, category: "Frontend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/1126/1126012.png" },
+                { name: "Vue.js", level: 75, category: "Frontend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/1183/1183622.png" },
+                { name: "LARAVEL", level: 80, category: "Backend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968342.png" },
+                { name: "PHP", level: 80, category: "Backend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968332.png" },
+                { name: "Node.js", level: 60, category: "Backend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968322.png" },
+                { name: "Spring Boot", level: 60, category: "Backend Technologies", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968282.png" },
+                { name: "MYSQL", level: 75, category: "Databases", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968313.png" },
+                { name: "SQL", level: 75, category: "Databases", icon: "https://cdn-icons-png.flaticon.com/512/2772/2772128.png" },
+                { name: "MongoDB", level: 70, category: "Databases", icon: "https://cdn-icons-png.flaticon.com/512/1104/1104982.png" },
+                { name: "C++", level: 55, category: "Programming Languages", icon: "https://cdn-icons-png.flaticon.com/512/6132/6132222.png" },
+                { name: "Bootstrap", level: 85, category: "UI Frameworks", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968672.png" },
+                { name: "Element UI", level: 80, category: "UI Frameworks", icon: "https://cdn-icons-png.flaticon.com/512/753/753244.png" },
+                { name: "Tailwind CSS", level: 85, category: "UI Frameworks", icon: "https://cdn-icons-png.flaticon.com/512/5968/5968381.png" },
+                { name: "Ant Design", level: 75, category: "UI Frameworks", icon: "https://cdn-icons-png.flaticon.com/512/6132/6132221.png" },
+            ];
+
+            // 根据技能类别分组
+            const skillsByCategory = {};
+            skillsData.forEach(skill => {
+                if (!skillsByCategory[skill.category]) {
+                    skillsByCategory[skill.category] = [];
+                }
+                skillsByCategory[skill.category].push(skill);
+            });
+
+            return (
+                <section id="skills" className="py-20 bg-black bg-opacity-50">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-5xl font-bold text-gradient inline-block mb-2">
+                                Skills
+                            </h2>
+                            <div className="w-20 h-1 bg-gradient mx-auto"></div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {Object.entries(skillsByCategory).map(([category, skills], categoryIndex) => (
+                                <div key={categoryIndex} className="p-6 rounded-xl section-border glass-effect apple-shadow">
+                                    <h3 className="text-2xl font-bold mb-4 text-gray-300">{category}</h3>
+                                    <div className="space-y-6">
+                                        {skills.map((skill, index) => (
+                                            <div key={index} className="mb-4">
+                                                <div className="flex justify-between mb-2">
+                                                    <div className="flex items-center">
+                                                        <img src={skill.icon} alt={skill.name} className="w-6 h-6 mr-2" />
+                                                        <span className="text-gray-300">{skill.name}</span>
+                                                    </div>
+                                                    <span className="text-gray-400">{skill.level}%</span>
+                                                </div>
+                                                <div className="skill-bar">
+                                                    <div 
+                                                        className="skill-level" 
+                                                        style={{ width: `${skill.level}%` }}
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 工作经验组件
+        const Experience = () => {
+            const experiences = [
+                {
+                    period: "Feb 2020 - Jun 2022",
+                    company: "SEAGM Gamer Mall",
+                    position: "APPLICATION SOFTWARE DEVELOPER & CUSTOMER SUPPORT",
+                    responsibilities: [
+                        "Used HTML and CSS animations and JavaScript effects to enhance user interfaces.",
+                        "Performed refactoring of the user experience of an existing project, improving the overall performance of the website.",
+                        "Conducted automated tests, performed QA testing, and fixed cross-browser issues on front-end code.",
+                        "Conducted cross-browser testing to ensure consistency across different browsers and devices.",
+                        "Collaborated with the team to adjust and enhance the user interface based on feedback.",
+                        "Created front tools to manage large volumes of data into the database and increase the accuracy of the data.",
+                        "Providing detailed information about game activation codes products and assisting customers in resolving complicated issues.",
+                        "Handling a large volume of customer service requests, and providing information and assistance.",
+                        "Interacting with customers through phone calls and emails, answering inquiries, solving problems, and ensuring customer satisfaction.",
+                        "Assisting in processing orders, refunds, and handling complaints to maintain a high level of customer satisfaction."
+                    ]
+                },
+                {
+                    period: "Oct 2022 - Jan 2023",
+                    company: "EAIM EAST INSTITUTE OF MANAGEMENT",
+                    position: "Frontend Developer",
+                    responsibilities: [
+                        "Effectively implemented software changes and alterations according to specific design specifications.",
+                        "Demonstrated successful independent work, while also contributing as an effective and enthusiastic collaborator.",
+                        "Assisted the teams in addressing unresolved website issues, including broken links, typographical errors, and formatting issues.",
+                        "Contributed to achieving a consistent look and visual theme across the website by advocating for uniform fonts, formatting, images, and layout."
+                    ]
+                },
+                {
+                    period: "Aug 2023 - Sep 2023",
+                    company: "PCOM-SSB",
+                    position: "IT SUPPORT",
+                    responsibilities: [
+                        "Provided phone and email support to clients, resolving various technical issues.",
+                        "Assisted clients in configuring and maintaining various software applications.",
+                        "Offered remote and on-site technical support, resolving software issues for employees.",
+                        "Learned software development fundamentals with a development team, participating in code reviews.",
+                        "Assisted developers in problem-solving and bug-fixing.",
+                        "Responsible for maintaining the company's database system, including regularly backing up critical data to ensure data security."
+                    ]
+                },
+                {
+                    period: "JAN 2024 - Present",
+                    company: "PINNACLE CREDIT SERVICES",
+                    position: "IT SUPPORT & FRONTEND DEVELOPER",
+                    responsibilities: [
+                        "Developed a live Management Dashboard that improved departmental decision-making capabilities through dynamic data visualization, using PHP backend & JS frontend.",
+                        "Implemented security enhancements (CSP, HSTS) reducing security vulnerabilities by 30%.",
+                        "Managed database backups and disaster recovery processes, preventing 90% of potential data loss incidents.",
+                        "Assisted in patch and data protection regulations (e.g., GDPR, local regulations) in system configuration and data handling processes.",
+                        "Managed and maintained Microsoft Active Directory (AD), handling user accounts, group policies, and access control to maintain secure operations and minimize downtime."
+                    ]
+                }
+            ];
+
+            return (
+                <section id="experience" className="py-20 bg-black bg-opacity-50">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-5xl font-bold text-gradient inline-block mb-2">
+                                Experience
+                            </h2>
+                            <div className="w-20 h-1 bg-gradient mx-auto"></div>
+                        </div>
+                        
+                        <div className="max-w-4xl mx-auto">
+                            {experiences.map((exp, index) => (
+                                <div key={index} className="mb-10 relative pl-8">
+                                    {/* 时间轴垂直线 */}
+                                    {index < experiences.length - 1 && (
+                                        <div className="absolute left-3 top-6 w-0.5 h-full bg-primary opacity-30"></div>
+                                    )}
+                                    
+                                    {/* 时间轴圆点 */}
+                                    <div className="absolute left-0 top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                        <div className="w-2 h-2 rounded-full bg-white"></div>
+                                    </div>
+                                    
+                                    {/* 经验内容 */}
+                                    <div className="p-6 rounded-xl section-border glass-effect apple-shadow apple-transition hover-lift">
+                                        <div className="text-gray-400 mb-1">{exp.period}</div>
+                                        <div className="text-primary font-bold text-lg mb-1">{exp.company}</div>
+                                        <div className="text-white font-medium text-lg mb-3">{exp.position}</div>
+                                        
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            {exp.responsibilities.map((item, idx) => (
+                                                <li key={idx} className="text-gray-300 text-sm">{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // 联系我组件
+        const Contact = () => {
+            return (
+                <section id="contact" className="py-20 bg-black bg-opacity-50">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-5xl font-bold text-gradient inline-block mb-2">
+                                Contact Me
+                            </h2>
+                            <div className="w-20 h-1 bg-gradient mx-auto"></div>
+                        </div>
+                        
+                        <div className="max-w-4xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {/* 电话联系卡片 */}
+                                <div className="p-6 rounded-xl section-border glass-effect apple-shadow apple-transition hover-lift">
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-2">Phone</h3>
+                                        <p className="text-gray-300 hover:text-primary transition-colors">
+                                            <a href="tel:+6580760399">+65 8076 0399</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                {/* 邮件联系卡片 */}
+                                <div className="p-6 rounded-xl section-border glass-effect apple-shadow apple-transition hover-lift">
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-2">Email</h3>
+                                        <p className="text-gray-300 hover:text-primary transition-colors">
+                                            <a href="mailto:y.jiahao619@gmail.com">y.jiahao619@gmail.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                {/* WhatsApp联系卡片 */}
+                                <div className="p-6 rounded-xl section-border glass-effect apple-shadow apple-transition hover-lift">
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path fillRule="evenodd" clipRule="evenodd" d="M19.3914 4.60325C17.2264 2.43825 14.3014 1.25 11.1914 1.25C4.81836 1.25 -0.306641 6.375 -0.306641 12.7475C-0.306641 14.7725 0.226359 16.75 1.22636 18.5075L-0.306641 24L5.35136 22.5C7.05136 23.4075 9.09136 23.875 11.1664 23.875C17.5394 23.875 22.6644 18.75 22.6644 12.3775C22.6644 9.2675 21.5564 6.3425 19.3914 4.60325ZM11.1914 21.945C9.36636 21.945 7.58136 21.505 6.01836 20.6725L5.70036 20.4825L2.55136 21.335L3.42636 18.2825L3.21136 17.9525C2.28136 16.315 1.78536 14.5525 1.78536 12.7475C1.78536 7.42 6.07636 3.1675 11.2164 3.1675C13.7764 3.1675 16.1564 4.1475 17.9414 5.9325C19.7264 7.7175 20.5964 10.0975 20.5964 12.3775C20.5714 17.73 16.3064 21.945 11.1914 21.945ZM16.3314 15.155C16.0614 15.02 14.7214 14.3675 14.4764 14.2825C14.2314 14.1975 14.0564 14.155 13.8564 14.425C13.6564 14.695 13.1364 15.2975 12.9864 15.4725C12.8364 15.6475 12.6864 15.6725 12.4164 15.5375C12.1464 15.4025 11.2614 15.125 10.2164 14.2C9.39136 13.485 8.84636 12.595 8.69636 12.325C8.54636 12.055 8.67936 11.92 8.82936 11.785C8.95636 11.6675 9.11336 11.47 9.24636 11.32C9.37936 11.17 9.42136 11.0675 9.50636 10.8675C9.59136 10.6675 9.54936 10.5175 9.48636 10.3825C9.42136 10.2475 8.87636 8.9075 8.65936 8.3675C8.44236 7.8275 8.22636 7.9125 8.07636 7.8975C7.92636 7.8975 7.75136 7.8975 7.57636 7.8975C7.40136 7.8975 7.11336 7.9625 6.86836 8.2325C6.62336 8.5025 5.92636 9.155 5.92636 10.4975C5.92636 11.84 6.87636 13.1375 7.01136 13.3375C7.14436 13.5375 8.84636 16.145 11.4564 17.335C12.1214 17.62 12.6414 17.7975 13.0464 17.9275C13.7214 18.1425 14.3364 18.1175 14.8214 18.0525C15.3664 17.9775 16.4714 17.3975 16.6884 16.7675C16.9064 16.1375 16.9064 15.5975 16.8414 15.4725C16.7764 15.3475 16.6014 15.29 16.3314 15.155Z" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-2">WhatsApp</h3>
+                                        <p className="text-gray-300 hover:text-primary transition-colors">
+                                            <a href="https://wa.me/6580760399" target="_blank">+65 8076 0399</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="text-center mt-12 text-gray-400">
+                                <p>Feel free to contact me anytime. I'll get back to you as soon as possible!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // App组件
+        const App = () => {
+            return (
+                <div className="pt-10">
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Experience />
+                    <Contact />
+                </div>
+            );
+        };
+
+        // 渲染到DOM
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html> 
