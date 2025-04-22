@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>James</title>
-    <!-- Favicon removed -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="images/myself-img.jpg">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -567,12 +568,9 @@
                                             <p className="text-lg mb-4 text-start font-bold text-gray-300">I am a:</p>
                                         </div>
                                         {[
-                                           , 
                                             'UI/UX Developer ', 
                                             'Full Stack Developer', 
                                             'Frontend Specialist'
-                                          
-                                            
                                         ].map((item, i) => (
                                             <div key={i} className="opacity-100 transition-all duration-300 hover:translate-x-2 text-right mb-3 text-base" style={{ transform: `translateZ(${15 + i * 5}px)` }}>
                                                 <a href="#" className="text-gray-400 hover:text-gradient apple-transition">{item}</a>
@@ -594,7 +592,7 @@
             const orbits = [
                 { radius: 280, duration: 25, size: 36, itemSrc: "https://cdn-icons-png.flaticon.com/512/732/732190.png", initialAngle: 135 },
                 { radius: 330, duration: 32, size: 32, itemSrc: "https://cdn-icons-png.flaticon.com/512/4107/4107400.png", initialAngle: 225 },
-                { radius: 380, duration: 8, size: 120, itemSrc: "myself-img.jpg", isAvatar: true, initialAngle: 315 },
+                { radius: 380, duration: 8, size: 120, itemSrc: "images/myself-img.jpg", isAvatar: true, initialAngle: 315 },
                 { radius: 150, duration: 18, size: 28, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png", initialAngle: 0 },
                 { radius: 220, duration: 22, size: 38, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968322.png", initialAngle: 180 },
                 { radius: 250, duration: 20, size: 34, itemSrc: "https://cdn-icons-png.flaticon.com/512/5968/5968332.png", initialAngle: 90 }
@@ -754,7 +752,7 @@
                             <div className="md:w-1/2">
                                 <div className="grid grid-cols-2 gap-6">
                                     {[
-                                        { number: '2+', text: 'Years of development experience' },
+                                        { number: '2+', text: 'Years of development experience' }
                                         // { number: '3', text: 'Completed projects' },
                                         // { number: '1', text: 'IT Certificates' },
                                         
