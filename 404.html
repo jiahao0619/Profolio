@@ -1,21 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <title>重定向中...</title>
-  <script>
-    // 检查URL是否包含index.html
-    if (window.location.href.indexOf('index.html') > -1) {
-      // 重定向到不带index.html的URL
-      window.location.href = window.location.href.replace('/index.html', '/');
-    } else if (window.location.pathname === '/404.html') {
-      // 如果是404页面，重定向到主页
-      var baseUrl = window.location.href.replace('/404.html', '');
-      window.location.href = baseUrl;
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | James Yang</title>
+    <link rel="icon" type="image/jpeg" href="myself-img.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6e57e0',
+                        secondary: '#ff6b6b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(110, 87, 224, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+            }
+        }
+    </style>
 </head>
-<body>
-  <p>重定向中，请稍候...</p>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="text-center">
+        <!-- 404 Number -->
+        <div class="mb-8 floating">
+            <h1 class="text-9xl md:text-[200px] font-bold glow" style="background: linear-gradient(135deg, #6e57e0, #ff6b6b); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                404
+            </h1>
+        </div>
+
+        <!-- Message -->
+        <div class="mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Oops! Page Not Found
+            </h2>
+            <p class="text-gray-400 text-lg max-w-md mx-auto">
+                The page you're looking for seems to have wandered off into the digital void.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+                href="/"
+                class="inline-flex items-center px-8 py-4 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105"
+                style="background: linear-gradient(135deg, #6e57e0, #ff6b6b);"
+            >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Back to Home
+            </a>
+
+            <a
+                href="mailto:y.jiahao619@gmail.com"
+                class="inline-flex items-center px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-xl text-white font-semibold transition-all duration-300"
+            >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Contact Me
+            </a>
+        </div>
+
+        <!-- Fun Fact -->
+        <div class="mt-16 text-gray-500 text-sm">
+            <p>Did you know? Error 404 means "Not Found" in HTTP status codes.</p>
+        </div>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="fixed top-10 right-10 w-64 h-64 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, rgba(110,87,224,0.5) 0%, rgba(255,107,107,0.1) 70%);"></div>
+    <div class="fixed bottom-10 left-10 w-96 h-96 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, rgba(255,107,107,0.5) 0%, rgba(110,87,224,0.1) 70%);"></div>
+
+    <!-- Auto-redirect script (optional) -->
+    <script>
+        // Optionally auto-redirect after 10 seconds
+        // setTimeout(() => {
+        //     window.location.href = '/';
+        // }, 10000);
+    </script>
 </body>
-</html> 
+</html>
