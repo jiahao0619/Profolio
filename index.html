@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>James</title>
-    <!-- 重定向脚本 -->
-    <script src="redirect.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="myself-img.jpg">
     <!-- Tailwind CSS -->
@@ -45,26 +43,12 @@
             overflow-x: hidden;
         }
         
-        .orbit-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        
         .accentLightBg {
             background-color: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
-        
-        .orbit-item {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(110, 87, 224, 0.15);
-            animation: float 15s infinite ease-in-out;
-        }
-        
+
         @keyframes float {
             0%, 100% {
                 transform: translate(0, 0);
@@ -82,13 +66,6 @@
         
         .bg-gradient {
             background: linear-gradient(135deg, #6e57e0, #ff6b6b);
-        }
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #6e57e0, #ff6b6b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
         }
 
         .section-border {
@@ -121,36 +98,6 @@
 
         .preserve-3d {
             transform-style: preserve-3d;
-        }
-        
-        /* 轨道样式改进 - 更清晰的轨道线路 */
-        .orbit-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            border: 1.5px dashed rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(2px);
-            transition: all 0.5s ease;
-            box-shadow: 0 0 15px rgba(110, 87, 224, 0.15);
-        }
-        
-        .orbit-item {
-            position: absolute;
-            border-radius: 50%;
-            transform-origin: center center;
-            animation: orbit linear infinite;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-        }
-        
-        @keyframes orbit {
-            from {
-                transform: rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
-            }
         }
         
         /* 顶部导航样式 */
